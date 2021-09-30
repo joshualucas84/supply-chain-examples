@@ -1,6 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
+  name: pipeline-run 
   generateName: kaniko-cargo-pipeline-run-
 spec:
   serviceAccountName: build-bot

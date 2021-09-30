@@ -2,24 +2,21 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- gatekeeper-constraints-template.yaml 
-- gatekeeper-constraints.yaml 
-- gatekeeper-signing-checker-resources.yaml
-- gatekeeper-signing-checker.yaml 
-- admission-control-verify-image.yaml 
-- kaniko-with-cosign.yaml
-  #- pipeline-run.yaml
-- pipeline.yaml
+- constraint-templates
+- cosign
+- signing-checker
 namespace: gatekeeper
-namePrefix: gatekeeper-
 commonLabels:
   app: gatekeeper-demo
-images:
-- name: myapp
-  newName: registry.gitlab.com/jkpl/kustomize-demo
-  newTag: IMAGE_TAG
-
-#verifyImages:
-#-name:  verify-image
- #newImage: test
- #newKey: test
+patchesJson6902:
+#Replace image and keys with you custom image or key  
+- target:
+    version: v1
+    kind: ClusterPolicy
+    name: verify-image
+  path: developer-patches/admission-control-verify-image.json
+#- target:
+#    version: v1
+#    kind: Service
+#    name: my-service
+#  path: add_service_annotation.yaml
