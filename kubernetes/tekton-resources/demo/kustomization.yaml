@@ -1,0 +1,25 @@
+# path: k8s-base/kustomization.template.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- gatekeeper-constraints-template.yaml 
+- gatekeeper-constraints.yaml 
+- gatekeeper-signing-checker-resources.yaml
+- gatekeeper-signing-checker.yaml 
+- admission-control-verify-image.yaml 
+- kaniko-with-cosign.yaml
+  #- pipeline-run.yaml
+- pipeline.yaml
+namespace: gatekeeper
+namePrefix: gatekeeper-
+commonLabels:
+  app: gatekeeper-demo
+images:
+- name: myapp
+  newName: registry.gitlab.com/jkpl/kustomize-demo
+  newTag: IMAGE_TAG
+
+#verifyImages:
+#-name:  verify-image
+ #newImage: test
+ #newKey: test
